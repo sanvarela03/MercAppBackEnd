@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 
-@Component
+//@Component
 public class CargarImagen {
     private InputStream inputStream;
 

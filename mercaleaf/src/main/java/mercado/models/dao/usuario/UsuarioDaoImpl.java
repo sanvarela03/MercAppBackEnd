@@ -19,7 +19,7 @@ import mercado.models.entity.Usuario;
 public class UsuarioDaoImpl extends GenericDAOImpl<Usuario, Long> implements IUsuarioDAO {
 
 	@Autowired
-	private IUsuarioCRUD crud;
+	protected IUsuarioCRUD crud;
 
 	@Override
 	public CrudRepository<Usuario, Long> getDAO() {

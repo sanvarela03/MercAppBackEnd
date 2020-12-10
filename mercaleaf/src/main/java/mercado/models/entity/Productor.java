@@ -10,14 +10,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "productor")
 public class Productor extends Usuario {
 
 	private static final long serialVersionUID = 1L;
-	
-	@OneToMany(mappedBy =  "productor" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonBackReference
+
+//	@JsonBackReference
+//	@JsonIgnore
+
+	@OneToMany(mappedBy = "productor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Producto> productos;
 
 	public Productor() {

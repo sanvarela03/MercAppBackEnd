@@ -2,16 +2,20 @@ package mercado.models.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -23,14 +27,18 @@ public class Producto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonManagedReference
+//	@JsonManagedReference
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_productor", referencedColumnName = "id_usuario")
 	private Productor productor;
-
+	
+	
 	@OneToMany(mappedBy = "producto")
+	@JsonIgnore
 	private List<DetallePedido> detallePedido;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private Tipo tipo;
 
 	private String nombre;
@@ -40,6 +48,16 @@ public class Producto {
 	private String precio;
 
 	private String costo;
+	
+	private String capacidadVenta;
+
+	public String getCapacidadVenta() {
+		return capacidadVenta;
+	}
+
+	public void setCapacidadVenta(String capacidadVenta) {
+		this.capacidadVenta = capacidadVenta;
+	}
 
 	public Long getId() {
 		return id;

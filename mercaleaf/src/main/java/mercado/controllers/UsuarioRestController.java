@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 
+import mercado.models.dao.productor.IProductorDAO;
 import mercado.models.dao.usuario.IUsuarioDAO;
+import mercado.models.dao.usuario.IUsuarioRepository;
+import mercado.models.entity.Producto;
+import mercado.models.entity.Productor;
 import mercado.models.entity.Usuario;
 
 @RestController
@@ -39,9 +44,15 @@ public class UsuarioRestController {
 	@Autowired
 	private IUsuarioDAO usuarioDAO;
 
+	@Autowired
+	private IProductorDAO productorDAO;
+
+	@Autowired
+	private IUsuarioRepository usuarioRepository;
 
 	@GetMapping("/usuarios")
 	public List<Usuario> index() {
+
 		return usuarioDAO.getAll();
 	}
 
@@ -53,8 +64,18 @@ public class UsuarioRestController {
 	@PostMapping("/usuarios")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario create(@RequestBody Usuario usuario) {
-
-		return usuarioDAO.save(usuario);
+		
+		Productor productor = new Productor();
+		
+		productor.setIdUsuario(usuario.getIdUsuario());
+		productor.setRol(usuario.getRol());
+		productor.setEmail(usuario.getEmail());
+		
+		productorDAO.save(productor);
+		Usuario u = productor;
+		
+		
+		return u;
 	}
 
 	@PostMapping(value = "/usuarios/foto", consumes = "multipart/form-data")
@@ -106,5 +127,23 @@ public class UsuarioRestController {
 	public void delete(@PathVariable Long id) {
 
 		usuarioDAO.delete(id);
+	}
+
+	@GetMapping("/usuarios/productores/email/reconocer/{email}")
+	public String isKnown(@PathVariable("email") String email) {
+
+		if (!usuarioRepository.encontrarUsuariosPorEmail(email).isEmpty()) {
+			return "true";
+		}
+
+		return "false";
+	}
+
+	@GetMapping("/usuarios/productores/email/{email}")
+	public Usuario getByEmail(@PathVariable("email") String email) {
+		if (!usuarioRepository.encontrarUsuariosPorEmail(email).isEmpty()) {
+			return usuarioRepository.encontrarUsuariosPorEmail(email).get(0);
+		}
+		return null;
 	}
 }

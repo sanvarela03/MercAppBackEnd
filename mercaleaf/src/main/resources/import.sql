@@ -12,15 +12,14 @@ INSERT INTO usuarios (id_usuario, nombre, apellido, email,fecha_nacimiento ,crea
 
 INSERT INTO productor (id_usuario) VALUES (2);
 
-/*
+
 INSERT INTO tipo (id,nombre) VALUES (1,'verdura');
 
-INSERT INTO producto (id_producto,costo,descripcion,nombre,precio,productor_id_usuario,tipo_id) VALUES(1,'$20000','un producto','una verdura','$30000',2,1);
+INSERT INTO producto (id_producto,costo,descripcion,nombre,precio,id_productor,tipo_id) VALUES(1,'$20000','un producto','una verdura','$30000',2,1);
 
-INSERT INTO producto (id_producto,costo,descripcion,nombre,precio,productor_id_usuario,tipo_id) VALUES(2,'$20000','un producto','alcachofa','$30000',2,1);
+INSERT INTO producto (id_producto,costo,descripcion,nombre,precio,id_productor,tipo_id) VALUES(2,'$20000','un producto','alcachofa','$30000',2,1);
 
-INSERT INTO producto (id_producto,costo,descripcion,nombre,precio,productor_id_usuario,tipo_id) VALUES(3,'$20000','un producto','zanahoria','$30000',2,1);
-*/
+
 
 
 
